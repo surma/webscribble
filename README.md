@@ -1,6 +1,6 @@
 # Scratchpad
 
-A simple, no-fuss-no-features scratchpad. It takes your code and loads it as a website.
+A simple, no-fluff web scratchpad.
 
 ---
 License Apache-2.0
