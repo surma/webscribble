@@ -54,7 +54,7 @@ async function init() {
     theme: "monokai"
   });
   window.CodeMirror = CodeMirror;
-  editor.setSize("100%", "100%");
+  editor.setSize("auto", "100%");
   editor.on("change", () => (hasBeenEdited = dirty = true));
   setInterval(updateIframe, 1000);
 
