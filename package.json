@@ -1,0 +1,26 @@
+{
+  "name": "scratchpad",
+  "version": "0.0.1",
+  "scripts": {
+    "copy-static": "cpx 'static/**/*' dist",
+    "build": "rollup -c && npm run copy-static",
+    "serve": "http-server -c0 dist",
+    "fmt": "prettier --write src/**/*"
+  },
+  "author": "Surma <surma@google.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "codemirror": "^5.40.2",
+    "cpx": "^1.5.0",
+    "rollup": "^0.66.6",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-inline-js": "^0.3.0",
+    "rollup-plugin-loadz0r": "^0.4.1",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-terser": "^3.0.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "prettier": "^1.14.3"
+  }
+}
