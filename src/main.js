@@ -12,8 +12,10 @@
  */
 import CodeMirror from "codemirror/src/codemirror.js";
 
+let idbkeyval = null;
 const iframe = document.querySelector("iframe");
 let dirty = false;
+let hasBeenEdited = false;
 let lastObjectURL = null;
 
 function updateIframe() {
@@ -23,8 +25,12 @@ function updateIframe() {
   if (lastObjectURL) {
     URL.revokeObjectURL(lastObjectURL);
   }
+  const content = editor.getValue();
+  if (idbkeyval) {
+    idbkeyval.set("scratchpad", content);
+  }
   lastObjectURL = URL.createObjectURL(
-    new Blob([editor.getValue()], { type: "text/html" })
+    new Blob([content], { type: "text/html" })
   );
   iframe.contentWindow.location = lastObjectURL;
   dirty = false;
@@ -49,7 +55,7 @@ async function init() {
   });
   window.CodeMirror = CodeMirror;
   editor.setSize("100%", "100%");
-  editor.on("change", () => (dirty = true));
+  editor.on("change", () => (hasBeenEdited = dirty = true));
   setInterval(updateIframe, 1000);
 
   // Lazy CSS
@@ -58,5 +64,13 @@ async function init() {
   const { modeInjector } = await import("./mode-injector.js");
   modeInjector(CodeMirror);
   editor.setOption("mode", "htmlmixed");
+  const { get, set } = await import("idb-keyval");
+  idbkeyval = { get, set };
+  if (!hasBeenEdited) {
+    const content = await get("scratchpad");
+    if (content) {
+      editor.setValue(content);
+    }
+  }
 }
 init();
