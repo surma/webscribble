@@ -25,15 +25,18 @@ function updateIframe() {
   }
   if (lastObjectURL) {
     URL.revokeObjectURL(lastObjectURL);
+    lastObjectURL = null;
   }
   const content = editor.getValue();
   if (idbkeyval) {
     idbkeyval.set("scratchpad", content);
   }
-  lastObjectURL = URL.createObjectURL(
-    new Blob([content], { type: "text/html" })
-  );
-  iframe.contentWindow.location = lastObjectURL;
+  if (autoRun) {
+    lastObjectURL = URL.createObjectURL(
+      new Blob([content], { type: "text/html" })
+    );
+    iframe.contentWindow.location = lastObjectURL;
+  }
   dirty = false;
 }
 
@@ -57,9 +60,7 @@ async function init() {
   window.CodeMirror = CodeMirror;
   editor.setSize("auto", "100%");
   editor.on("change", () => (hasBeenEdited = dirty = true));
-  if (autoRun) {
-    setInterval(updateIframe, 1000);
-  }
+  setInterval(updateIframe, 1000);
 
   // Lazy CSS
   ["/third_party/monokai.css"].map(loadCSS);
