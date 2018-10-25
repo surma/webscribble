@@ -1,5 +1,5 @@
 {
-  "name": "scratchpad",
+  "name": "webscribble",
   "version": "0.0.1",
   "scripts": {
     "copy-static": "cpx 'static/**/*' dist",

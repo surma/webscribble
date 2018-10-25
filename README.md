@@ -1,4 +1,4 @@
-# Scratchpad
+# WebScribble
 
 A simple, no-fluff web scratchpad.
 
