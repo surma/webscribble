@@ -12,8 +12,9 @@
  */
 import CodeMirror from "codemirror/src/codemirror.js";
 
-let idbkeyval = null;
 const iframe = document.querySelector("iframe");
+const autoRun = !location.hash.includes("!norun");
+let idbkeyval = null;
 let dirty = false;
 let hasBeenEdited = false;
 let lastObjectURL = null;
@@ -56,7 +57,9 @@ async function init() {
   window.CodeMirror = CodeMirror;
   editor.setSize("auto", "100%");
   editor.on("change", () => (hasBeenEdited = dirty = true));
-  setInterval(updateIframe, 1000);
+  if (autoRun) {
+    setInterval(updateIframe, 1000);
+  }
 
   // Lazy CSS
   ["/third_party/monokai.css"].map(loadCSS);
