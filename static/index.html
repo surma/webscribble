@@ -24,12 +24,12 @@ limitations under the License.
   body {
     width: 100vw;
     height: 100vh;
-    align-items: stretch;
-    align-content: stretch;
-    justify-content: stretch;
-    justify-items: stretch;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+  }
+  body > * {
+    flex: 0 0 50%;
+    overflow: auto;
+    height: 100% !important;
   }
 </style>
 
