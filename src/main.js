@@ -10,10 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import HelpText from "./templates/help.js";
 import CodeMirror from "codemirror/src/codemirror.js";
+window.CodeMirror = CodeMirror;
 
+let idbset, idbget;
+const KEY = "scratchpad";
 const iframe = document.querySelector("iframe");
-const autoRun = !location.hash.includes("!norun");
 let idbkeyval = null;
 let dirty = false;
 let hasBeenEdited = false;
@@ -28,16 +31,20 @@ function updateIframe() {
     lastObjectURL = null;
   }
   const content = editor.getValue();
-  if (idbkeyval) {
-    idbkeyval.set("scratchpad", content);
+  if (idbset) {
+    idbset(KEY, content);
   }
-  if (autoRun) {
+  if (!hasFlag("norun")) {
     lastObjectURL = URL.createObjectURL(
       new Blob([content], { type: "text/html" })
     );
     iframe.contentWindow.location = lastObjectURL;
   }
   dirty = false;
+}
+
+function hasFlag(flag) {
+  return new RegExp(`(^#|,)${flag}(,|$)`).test(location.hash)
 }
 
 function loadCSS(file) {
@@ -51,30 +58,37 @@ function loadCSS(file) {
 }
 
 async function init() {
-  window.editor = CodeMirror.fromTextArea(document.querySelector("#editor"), {
+  if (hasFlag("flip")) {
+    document.body.style.flexDirection = "column-reverse";
+  }
+  const ta = document.querySelector("#editor")
+  ta.value = HelpText;
+  window.editor = CodeMirror.fromTextArea(ta, {
     lineNumbers: true,
     matchBrackets: true,
     styleActiveLine: true,
     theme: "monokai"
   });
-  window.CodeMirror = CodeMirror;
-  // editor.setSize("50%", "100%");
   editor.on("change", () => (hasBeenEdited = dirty = true));
   setInterval(updateIframe, 1000);
 
   // Lazy CSS
   ["/third_party/monokai.css"].map(loadCSS);
 
-  const { modeInjector } = await import("./mode-injector.js");
-  modeInjector(CodeMirror);
-  editor.setOption("mode", "htmlmixed");
-  const { get, set } = await import("idb-keyval");
-  idbkeyval = { get, set };
-  if (!hasBeenEdited) {
-    const content = await get("scratchpad");
+  ({ get: idbget, set: idbset } = await import("idb-keyval"));
+  if (hasFlag("help")) {
+    editor.setValue(HelpText);
+  } else if (hasFlag("boilerplate")) {
+    editor.setValue((await import("./templates/boilerplate.js")).default);
+  } else if (!hasBeenEdited) {
+    const content = await idbget(KEY);
     if (content) {
       editor.setValue(content);
     }
   }
+
+  const { modeInjector } = await import("./mode-injector.js");
+  modeInjector(CodeMirror);
+  editor.setOption("mode", "htmlmixed");
 }
 init();
