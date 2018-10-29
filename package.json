@@ -2,8 +2,8 @@
   "name": "webscribble",
   "version": "0.0.1",
   "scripts": {
-    "rewrite": "replaceinfiles -r static.hashmanifest.json -s src/index.html -d dist/index.html && replaceinfiles -r entrypoint.hashmanifest.json -s dist/index.html -d dist/index.html",
-    "static": "cd dist && hashmark -l 8 -m ../static.hashmanifest.json '../static/**/*.{css,jpg,png,svg}' './{name}-{hash}{ext}'",
+    "rewrite": "replaceinfiles -r static.hashmanifest.json -s '{src/index.html,dist/manifest*.json}' -d 'dist/{name}{ext}' && replaceinfiles -r entrypoint.hashmanifest.json -s dist/index.html -d dist/index.html",
+    "static": "cd dist && hashmark -l 8 -m ../static.hashmanifest.json '../static/**/*.{css,jpg,png,svg,json}' './{name}-{hash}{ext}'",
     "sw": "workbox generateSW workbox-config.js && terser dist/sw.js -o dist/sw.js",
     "build": "rollup -c && npm run static && npm run rewrite && npm run sw",
     "serve": "http-server dist -c0 -g",

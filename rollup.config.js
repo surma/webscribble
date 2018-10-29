@@ -19,6 +19,7 @@ import url from "rollup-plugin-url";
 import hashManifest from "./rollup-plugin-hash-manifest.js";
 
 require("rimraf").sync("dist");
+require("rimraf").sync("*.hashmanifest.json");
 
 export default {
   input: ["src/main.js"],

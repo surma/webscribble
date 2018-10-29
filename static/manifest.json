@@ -1,0 +1,17 @@
+{
+  "name": "WebScribble",
+  "short_name": "WebScribble",
+  "theme_color": "#f92672",
+  "background_color": "#272822",
+  "display": "browser",
+  "Scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "../static/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "splash_pages": null
+}
