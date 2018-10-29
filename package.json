@@ -4,7 +4,8 @@
   "scripts": {
     "rewrite": "replaceinfiles -r static.hashmanifest.json -s src/index.html -d dist/index.html && replaceinfiles -r entrypoint.hashmanifest.json -s dist/index.html -d dist/index.html",
     "static": "cd dist && hashmark -l 8 -m ../static.hashmanifest.json '../static/**/*.{css,jpg,png,svg}' './{name}-{hash}{ext}'",
-    "build": "rollup -c && npm run static && npm run rewrite",
+    "sw": "workbox generateSW workbox-config.js && terser dist/sw.js -o dist/sw.js",
+    "build": "rollup -c && npm run static && npm run rewrite && npm run sw",
     "serve": "http-server -c0 dist",
     "fmt": "prettier --write src/**/* ./*.{json,js,md}"
   },
@@ -23,7 +24,8 @@
     "rollup-plugin-loadz0r": "^0.4.1",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-terser": "^3.0.0",
-    "rollup-plugin-url": "^2.0.1"
+    "rollup-plugin-url": "^2.0.1",
+    "workbox-cli": "^3.6.3"
   },
   "devDependencies": {
     "http-server": "^0.11.1",

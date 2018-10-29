@@ -90,5 +90,7 @@ async function init() {
   const { modeInjector } = await import("./mode-injector.js");
   modeInjector(CodeMirror);
   editor.setOption("mode", "htmlmixed");
+
+  navigator.serviceWorker.register("sw.js");
 }
 init();
