@@ -6,7 +6,7 @@
     "static": "cd dist && hashmark -l 8 -m ../static.hashmanifest.json '../static/**/*.{css,jpg,png,svg}' './{name}-{hash}{ext}'",
     "build": "rollup -c && npm run static && npm run rewrite",
     "serve": "http-server -c0 dist",
-    "fmt": "prettier --write src/**/*"
+    "fmt": "prettier --write src/**/* ./*.{json,js,md}"
   },
   "author": "Surma <surma@google.com>",
   "license": "Apache-2.0",

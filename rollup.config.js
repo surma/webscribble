@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-import {terser} from "rollup-plugin-terser";
+import { terser } from "rollup-plugin-terser";
 import loadz0r from "rollup-plugin-loadz0r";
 import nodeResolve from "rollup-plugin-node-resolve";
 import inline from "rollup-plugin-inline-js";
@@ -21,9 +21,7 @@ import hashManifest from "./rollup-plugin-hash-manifest.js";
 require("rimraf").sync("dist");
 
 export default {
-  input: [
-    "src/main.js",
-  ],
+  input: ["src/main.js"],
   output: {
     dir: "dist",
     format: "amd",
@@ -43,4 +41,4 @@ export default {
     terser(),
     hashManifest()
   ]
-}
+};
