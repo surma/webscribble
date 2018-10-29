@@ -73,7 +73,7 @@ async function init() {
   setInterval(updateIframe, 1000);
 
   // Lazy CSS
-  ["/third_party/monokai.css"].map(loadCSS);
+  import("../static/third_party/monokai.css").then(m =>loadCSS(m.default));
 
   ({ get: idbget, set: idbset } = await import("idb-keyval"));
   if (hasFlag("help")) {

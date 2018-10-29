@@ -1,2 +1,3 @@
+*.hashmanifest.json
 node_modules
 dist

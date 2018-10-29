@@ -2,8 +2,9 @@
   "name": "webscribble",
   "version": "0.0.1",
   "scripts": {
-    "copy-static": "cpx 'static/**/*' dist",
-    "build": "rollup -c && npm run copy-static",
+    "rewrite": "replaceinfiles -r static.hashmanifest.json -s src/index.html -d dist/index.html && replaceinfiles -r entrypoint.hashmanifest.json -s dist/index.html -d dist/index.html",
+    "static": "cd dist && hashmark -l 8 -m ../static.hashmanifest.json '../static/**/*.{css,jpg,png,svg}' './{name}-{hash}{ext}'",
+    "build": "rollup -c && npm run static && npm run rewrite",
     "serve": "http-server -c0 dist",
     "fmt": "prettier --write src/**/*"
   },
@@ -12,13 +13,17 @@
   "dependencies": {
     "codemirror": "^5.40.2",
     "cpx": "^1.5.0",
+    "hashmark": "^5.0.0",
     "idb-keyval": "^3.1.0",
+    "replaceinfiles": "^1.1.4",
+    "rimraf": "^2.6.2",
     "rollup": "^0.66.6",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-inline-js": "^0.3.0",
     "rollup-plugin-loadz0r": "^0.4.1",
     "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-terser": "^3.0.0"
+    "rollup-plugin-terser": "^3.0.0",
+    "rollup-plugin-url": "^2.0.1"
   },
   "devDependencies": {
     "http-server": "^0.11.1",

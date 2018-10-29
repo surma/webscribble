@@ -15,7 +15,10 @@ import {terser} from "rollup-plugin-terser";
 import loadz0r from "rollup-plugin-loadz0r";
 import nodeResolve from "rollup-plugin-node-resolve";
 import inline from "rollup-plugin-inline-js";
+import url from "rollup-plugin-url";
+import hashManifest from "./rollup-plugin-hash-manifest.js";
 
+require("rimraf").sync("dist");
 
 export default {
   input: [
@@ -24,13 +27,20 @@ export default {
   output: {
     dir: "dist",
     format: "amd",
+    entryFileNames: "[name]-[hash].js",
+    chunkFileNames: "[name]-[hash].js",
     sourcemap: true
   },
   experimentalCodeSplitting: true,
   plugins: [
+    url({
+      limit: 1,
+      include: ["**/*.css"]
+    }),
     nodeResolve(),
     inline(),
     loadz0r(),
-    terser()
+    terser(),
+    hashManifest()
   ]
 }
