@@ -6,8 +6,9 @@
     "static": "cd dist && hashmark -l 8 -m ../static.hashmanifest.json '../static/**/*.{css,jpg,png,svg}' './{name}-{hash}{ext}'",
     "sw": "workbox generateSW workbox-config.js && terser dist/sw.js -o dist/sw.js",
     "build": "rollup -c && npm run static && npm run rewrite && npm run sw",
-    "serve": "http-server -c0 dist",
-    "fmt": "prettier --write src/**/* ./*.{json,js,md}"
+    "serve": "http-server dist -c0 -g",
+    "fmt": "prettier --write src/**/* ./*.{json,js,md}",
+    "gzip": "gzip -k9nr dist"
   },
   "author": "Surma <surma@google.com>",
   "license": "Apache-2.0",
