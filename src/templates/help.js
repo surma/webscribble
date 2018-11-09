@@ -7,6 +7,8 @@ by Surma (twitter.com/DasSurma)
 Options:
 --------
 
+- name=<name>: Load scratchpad with the
+               given name
 - norun: Don’t auto-run your code
 - help: Discard any stored data and show this
 - boilerplate: Discard any stored data and

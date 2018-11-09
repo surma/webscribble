@@ -15,7 +15,7 @@ import CodeMirror from "codemirror/src/codemirror.js";
 window.CodeMirror = CodeMirror;
 
 let idbset, idbget;
-const KEY = "scratchpad";
+let storageKey = "scratchpad";
 const iframe = document.querySelector("iframe");
 let idbkeyval = null;
 let dirty = false;
@@ -32,7 +32,7 @@ function updateIframe() {
   }
   const content = editor.getValue();
   if (idbset) {
-    idbset(KEY, content);
+    idbset(storageKey, content);
   }
   if (!hasFlag("norun")) {
     lastObjectURL = URL.createObjectURL(
@@ -44,7 +44,7 @@ function updateIframe() {
 }
 
 function hasFlag(flag) {
-  return new RegExp(`(^#|,)${flag}(,|$)`).test(location.hash)
+  return (new RegExp(`(?:^#|,)(${flag}(?:=[^,]+)?)(?:,|$)`).exec(location.hash) || [])[1];
 }
 
 function loadCSS(file) {
@@ -60,6 +60,10 @@ function loadCSS(file) {
 async function init() {
   if (hasFlag("flip")) {
     document.body.style.flexDirection = "column-reverse";
+  }
+  let name = hasFlag("name");
+  if(name) {
+    storageKey = `scratchpad_${name.split("=")[1]}`;
   }
   const ta = document.querySelector("#editor")
   ta.value = HelpText;
@@ -81,7 +85,7 @@ async function init() {
   } else if (hasFlag("boilerplate")) {
     editor.setValue((await import("./templates/boilerplate.js")).default);
   } else if (!hasBeenEdited) {
-    const content = await idbget(KEY);
+    const content = await idbget(storageKey);
     if (content) {
       editor.setValue(content);
     }
