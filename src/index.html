@@ -20,15 +20,18 @@ limitations under the License.
 <meta name="twitter:image" content="https://webscribble.surma.technology/../static/logo.png">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://webscribble.surma.technology/../static/logo.png">
-<meta name="og:description" content="A simple, no-fluff WebGL shader scratchpad.">
-<title>ShaderScribble</title>
+<meta name="og:description" content="A simple, no-fluff web scratchpad.">
+<title>WebScribble</title>
 <link rel="icon" type="image/png" href="../static/logo.png">
 <link rel="stylesheet" href="../static/third_party/codemirror.css">
 <link rel="manifest" href="../static/manifest.json">
-<style>
+<style type="text/css" media="screen">
   html, body {
     margin: 0;
     padding: 0;
+  }
+  iframe {
+    border: 0;
   }
   body {
     width: 100vw;
@@ -42,5 +45,5 @@ limitations under the License.
   }
 </style>
 <textarea id="editor"></textarea>
-<canvas></canvas>
+<iframe src="about:blank"></iframe>
 <script src="src/main.js"></script>
